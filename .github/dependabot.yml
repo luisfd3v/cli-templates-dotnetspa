@@ -7,8 +7,11 @@ updates:
     commit-message:
       prefix: ci
     groups:
-      github-actions:
+      # Only minor and patch updates are grouped. A major bump arrives as its own
+      # pull request so it can be reviewed and adopted on its own.
+      actions-minor-patch:
         patterns: ['*']
+        update-types: ['minor', 'patch']
 
   - package-ecosystem: npm
     directory: /
@@ -18,7 +21,9 @@ updates:
       prefix: chore
       include: scope
     groups:
-      dev-dependencies:
-        dependency-type: development
-      production-dependencies:
-        dependency-type: production
+      # Same reasoning as above. Grouping majors together produced a single pull
+      # request bumping typescript 5 -> 7, @types/node 22 -> 26 and vitest 3 -> 5
+      # at once, which no reviewer can evaluate sensibly.
+      npm-minor-patch:
+        patterns: ['*']
+        update-types: ['minor', 'patch']
