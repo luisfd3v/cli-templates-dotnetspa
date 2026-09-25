@@ -23,13 +23,13 @@ jobs:
     # The release commit that semantic-release pushes carries [skip ci].
     if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           # semantic-release walks every commit and tag to work out what is
           # unreleased, so a shallow clone would produce wrong versions.
           fetch-depth: 0
 
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
           # npm detects this setup and exchanges the OIDC token for a
