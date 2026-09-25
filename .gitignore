@@ -14,6 +14,9 @@ coverage/
 .npm/
 .pnpm-store/
 
+# Git hooks (husky regenerates .husky/_ on every install)
+.husky/_/
+
 # Logs
 *.log
 npm-debug.log*

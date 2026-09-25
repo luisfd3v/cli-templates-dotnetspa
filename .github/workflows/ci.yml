@@ -1,0 +1,75 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  commits:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          # commitlint needs the whole history to resolve the base..head range.
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+        env:
+          # No point installing git hooks on a throwaway runner.
+          HUSKY: 0
+
+      - name: Lint every commit in the pull request
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: npx commitlint --from "$BASE_SHA" --to "$HEAD_SHA" --verbose
+
+      # The important one. With "Squash and merge" GitHub uses the pull request
+      # title as the commit message on main, and that is the message
+      # semantic-release parses to decide the version bump. A contributor who
+      # writes a tidy commit but a vague PR title would silently produce no
+      # release at all.
+      #
+      # The title goes through `env` rather than straight into the script on
+      # purpose: interpolating untrusted event data into a `run:` block is a
+      # shell injection vector.
+      - name: Lint the pull request title
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: echo "$PR_TITLE" | npx commitlint --verbose
+
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [22, 24]
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+
+      - run: npm ci
+        env:
+          HUSKY: 0
+
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build

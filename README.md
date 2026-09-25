@@ -166,6 +166,36 @@ Each cell was generated and then built for real (`dotnet build`, the SPA product
 | React | decoupled | controllers |
 | Angular | coupled | minimal |
 
+## Releasing
+
+Releases are automatic. On every push to `main`, `.github/workflows/release.yml`
+runs [semantic-release](https://semantic-release.gitbook.io/), which reads the
+commit messages to work out the next version, updates `CHANGELOG.md`, tags the
+release, opens a GitHub Release and publishes to npm.
+
+The commit message is the only input to that decision:
+
+| Commit | Release |
+| --- | --- |
+| `fix: ...` | patch — `1.0.0` → `1.0.1` |
+| `perf: ...` | patch |
+| `feat: ...` | minor — `1.0.0` → `1.1.0` |
+| `feat!: ...` or a `BREAKING CHANGE:` footer | major — `1.0.0` → `2.0.0` |
+| `docs:`, `chore:`, `ci:`, `test:`, `refactor:`, `style:`, `build:` | nothing published |
+
+Not every merge publishes a version, and that is intended — otherwise the number
+would stop meaning anything.
+
+Because the project uses squash merges, the **pull request title** becomes the
+commit message on `main`, so that is what actually decides the release. CI lints
+both every commit in the PR and the PR title itself; local commits are checked by
+a `commit-msg` git hook installed by `npm install`.
+
+Publishing authenticates with npm through **OIDC trusted publishing**, so there is
+no `NPM_TOKEN` secret in this repository and every published version carries a
+provenance attestation. See `CONTRIBUTING.md` for the contributor workflow and
+the required npm settings.
+
 ## Known limitations
 
 - Template dependency versions are pinned by hand, so they drift. Run a generated project's build before releasing a new framework major.

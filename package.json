@@ -1,9 +1,20 @@
 {
   "name": "create-dotnetspa",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Scaffold a .NET 10 + SPA solution (React, Vue or Angular) - coupled or decoupled, Minimal API or Controllers.",
   "type": "module",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/luisfd3v/cli-templates-dotnetspa.git"
+  },
+  "bugs": {
+    "url": "https://github.com/luisfd3v/cli-templates-dotnetspa/issues"
+  },
+  "homepage": "https://github.com/luisfd3v/cli-templates-dotnetspa#readme",
+  "publishConfig": {
+    "access": "public"
+  },
   "bin": {
     "create-dotnetspa": "./dist/cli.js"
   },
@@ -20,6 +31,9 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
+    "lint:commits": "commitlint --from origin/main --to HEAD",
+    "release": "semantic-release",
+    "prepare": "husky",
     "prepublishOnly": "npm run build"
   },
   "keywords": [
@@ -35,7 +49,14 @@
     "minimal-api"
   ],
   "devDependencies": {
+    "@commitlint/cli": "^21.2.3",
+    "@commitlint/config-conventional": "^21.2.3",
+    "@semantic-release/changelog": "^7.0.0",
+    "@semantic-release/git": "^11.0.1",
     "@types/node": "^22.10.2",
+    "conventional-changelog-conventionalcommits": "^10.4.0",
+    "husky": "^9.1.7",
+    "semantic-release": "^25.0.9",
     "tsup": "^8.3.5",
     "typescript": "^5.7.2",
     "vitest": "^3.0.5"

@@ -1,0 +1,54 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+# semantic-release needs to push a release commit and a tag, comment on the
+# pull requests it released, and exchange an OIDC token with npm.
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+  id-token: write
+
+# Never run two releases concurrently and never cancel one mid-publish.
+concurrency:
+  group: release-main
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    # The release commit that semantic-release pushes carries [skip ci].
+    if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          # semantic-release walks every commit and tag to work out what is
+          # unreleased, so a shallow clone would produce wrong versions.
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          # npm detects this setup and exchanges the OIDC token for a
+          # short-lived publish token. No NPM_TOKEN secret is involved.
+          registry-url: https://registry.npmjs.org
+          # Caching is disabled on purpose for release builds: a poisoned cache
+          # can influence the published artefact.
+          package-manager-cache: false
+
+      - run: npm ci
+        env:
+          HUSKY: 0
+
+      # Fail before touching npm if the code is not sound.
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+
+      - name: Release
+        run: npx semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
