@@ -24,11 +24,28 @@ So this CLI generates the whole thing: a solution with `src/<Name>.API` and `src
 
 ## Usage
 
-Interactive:
+There is nothing to install. The CLI runs through `npx`: the package is fetched
+into a cache, executed, and thrown away. The npm package page also renders an
+`npm i create-dotnetspa` snippet — you do not need it, and a global install would
+only leave you with a stale copy.
 
 ```bash
+# npm (the shortest form: `npm create dotnetspa` resolves to create-dotnetspa)
 npm create dotnetspa@latest
+
+# npx, and the equivalent for the other runners
+npx create-dotnetspa@latest
+pnpm create dotnetspa@latest
+yarn create dotnetspa
+bun create dotnetspa
 ```
+
+The package is called `create-dotnetspa` on purpose: the `create-` prefix is
+exactly what makes `npm create dotnetspa` resolve to it. `npx dotnetspa` will not
+work, because no package by that name exists.
+
+Keep the `@latest`. Without it a previously cached version can be reused, and you
+would silently get an older set of templates.
 
 Non-interactive, for CI or scripting:
 
