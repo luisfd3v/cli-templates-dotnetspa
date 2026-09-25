@@ -1,0 +1,8 @@
+{
+  "/api": {
+    "target": "__API_URL__",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "warn"
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "name": "create-dotnetspa",
+  "version": "0.1.0",
+  "description": "Scaffold a .NET 10 + SPA solution (React, Vue or Angular) - coupled or decoupled, Minimal API or Controllers.",
+  "type": "module",
+  "license": "MIT",
+  "bin": {
+    "create-dotnetspa": "./dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "templates"
+  ],
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "dotnet",
+    "spa",
+    "vue",
+    "react",
+    "angular",
+    "vite",
+    "template",
+    "scaffold",
+    "create",
+    "minimal-api"
+  ],
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2",
+    "vitest": "^3.0.5"
+  },
+  "dependencies": {
+    "@clack/prompts": "^0.11.0",
+    "commander": "^13.0.0",
+    "execa": "^9.5.2",
+    "picocolors": "^1.1.1"
+  }
+}

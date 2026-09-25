@@ -1,0 +1,17 @@
+<div class="shell">
+  <header class="shell__header">
+    <span class="shell__brand">{{ title() }}</span>
+    <nav class="shell__nav">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Products</a>
+      <a routerLink="/about" routerLinkActive="active">About</a>
+    </nav>
+  </header>
+
+  <main class="shell__main">
+    <router-outlet />
+  </main>
+
+  <footer class="shell__footer">
+    API requests are proxied from <code>/api</code> to the ASP.NET Core backend.
+  </footer>
+</div>

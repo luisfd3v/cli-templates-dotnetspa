@@ -1,0 +1,199 @@
+:root {
+  --bg: #0f1117;
+  --surface: #171a23;
+  --border: #262b38;
+  --text: #e6e9ef;
+  --muted: #8b93a7;
+  --accent: #42b883;
+  --danger: #ff6b6b;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family:
+    ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+code {
+  background: #20242f;
+  border-radius: 4px;
+  padding: 0.1em 0.4em;
+  font-size: 0.9em;
+}
+
+.shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.shell__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.shell__brand {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.shell__nav {
+  display: flex;
+  gap: 18px;
+}
+
+.shell__nav a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.94rem;
+}
+
+.shell__nav a:hover {
+  color: var(--text);
+}
+
+/* vue-router uses .router-link-active, react-router uses .active */
+.shell__nav a.active,
+.shell__nav a.router-link-active {
+  color: var(--accent);
+}
+
+.shell__main {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  flex: 1;
+  padding: 24px 0;
+}
+
+.shell__footer {
+  padding: 16px 0;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+h1 {
+  font-size: 1.35rem;
+  margin: 0;
+}
+
+h2 {
+  font-size: 1.05rem;
+  margin: 0 0 12px;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.error {
+  color: var(--danger);
+}
+
+.list {
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 0;
+  border-top: 1px solid var(--border);
+}
+
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+input {
+  background: #10131a;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 10px;
+  color: var(--text);
+  font: inherit;
+  min-width: 150px;
+}
+
+input:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: -1px;
+}
+
+button {
+  background: var(--accent);
+  border: 0;
+  border-radius: 8px;
+  padding: 9px 16px;
+  color: #06231a;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 6px 18px;
+  margin: 16px 0 0;
+}
+
+.facts dt {
+  color: var(--muted);
+}
+
+.facts dd {
+  margin: 0;
+}
